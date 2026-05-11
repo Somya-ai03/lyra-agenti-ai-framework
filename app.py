@@ -318,12 +318,6 @@ with col_title:
     #st.markdown('<p style="font-size: 18px; margin-top: -10px; font-weight: 500;">Core Developer: <b style="color: #e94560;">Somya Kaushik</b> <span style="opacity: 0.7;">(QA Consultant)</span></p>', unsafe_allow_html=True)
     
 
-with col_ai:
-    if ai_available():
-        st.markdown('<span class="ai-badge">🤖 AI Active</span>', unsafe_allow_html=True)
-    else:
-        st.caption("⚠️ Set AZURE_OPENAI credentials for AI features")
-
 # -------------------------------------------------
 # SESSION STATE
 # -------------------------------------------------
@@ -438,15 +432,6 @@ tabs = st.tabs([
 ])
 
 
-# -------------------------------------------------
-# AI CONFIG STATUS (ADD THIS)
-# -------------------------------------------------
-with st.expander("🤖 AI Configuration Status", expanded=False):
-    st.write({
-        "API_KEY": "✅" if os.getenv("AZURE_OPENAI_API_KEY") else "❌",
-        "ENDPOINT": "✅" if os.getenv("AZURE_OPENAI_ENDPOINT") else "❌",
-        "DEPLOYMENT": os.getenv("AZURE_CHAT_DEPLOYMENT") or "❌ MISSING"
-    })
 
 # =================================================
 

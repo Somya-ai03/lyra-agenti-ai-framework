@@ -1,6 +1,74 @@
-.venv/
+# ===============================
+# 🐍 Python
+# ===============================
 __pycache__/
-*.pyc
-.env
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ===============================
+# 🌱 Virtual Environments
+# ===============================
+venv/
+.venv/
+env/
+
+# ===============================
+# 🧠 IDE / Editor
+# ===============================
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ===============================
+# 💻 OS Files
+# ===============================
 .DS_Store
+Thumbs.db
+
+# ===============================
+# 📓 Jupyter
+# ===============================
+.ipynb_checkpoints/
+
+# ===============================
+# 🔐 Environment / Secrets
+# ===============================
+.env
+.env.local
+*.p8
+*.pub
+lyra_key.p8
+
+# ===============================
+# 📊 Data (CRITICAL FIX)
+# ===============================
+# Generic data folders
+data/
 data/raw/
+data/output/
+data/profiled/
+data/scenarios/
+
+# 🔥 IMPORTANT: Your actual project data path
+lyra-agentic-ai-framework/data/
+
+# 🔥 Remove old/duplicate projects
+practice_files/
+
+# ===============================
+# 📦 Large / Generated Files
+# ===============================
+*.zip
+*.csv
+dummy_data_profiler_*.csv
+
+# ===============================
+# 🤖 Misc / Tools
+# ===============================
+.claude/
