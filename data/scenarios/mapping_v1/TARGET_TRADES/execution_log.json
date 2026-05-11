@@ -1,0 +1,370 @@
+{
+  "source_tables": {
+    "expected": [
+      "REF_CURRENCY",
+      "REF_REGION",
+      "SRC_CUSTOMERS",
+      "SRC_ORDERS",
+      "SRC_ORDER_LINES",
+      "SRC_PAYMENTS",
+      "SRC_PRODUCTS"
+    ],
+    "loaded": [
+      {
+        "table": "REF_CURRENCY",
+        "rows": 50,
+        "columns": 4
+      },
+      {
+        "table": "REF_REGION",
+        "rows": 50,
+        "columns": 4
+      },
+      {
+        "table": "SRC_CUSTOMERS",
+        "rows": 51,
+        "columns": 7
+      },
+      {
+        "table": "SRC_ORDERS",
+        "rows": 51,
+        "columns": 8
+      },
+      {
+        "table": "SRC_ORDER_LINES",
+        "rows": 50,
+        "columns": 8
+      },
+      {
+        "table": "SRC_PAYMENTS",
+        "rows": 50,
+        "columns": 7
+      },
+      {
+        "table": "SRC_PRODUCTS",
+        "rows": 50,
+        "columns": 7
+      }
+    ],
+    "missing": []
+  },
+  "joins": [
+    {
+      "index": 0,
+      "type": "INNER",
+      "sql": "SRC_ORDERS O INNER JOIN SRC_ORDER_LINES OL ON O.ORDER_ID = OL.ORDER_ID INNER JOIN SRC_CUSTOMERS C ON O.CUSTOMER_ID = C.C",
+      "keys": [
+        {
+          "left_table": "O",
+          "left_column": "ORDER_ID",
+          "right_table": "OL",
+          "right_column": "ORDER_ID"
+        },
+        {
+          "left_table": "O",
+          "left_column": "CUSTOMER_ID",
+          "right_table": "C",
+          "right_column": "CUSTOMER_ID"
+        },
+        {
+          "left_table": "OL",
+          "left_column": "PRODUCT_ID",
+          "right_table": "P",
+          "right_column": "PRODUCT_ID"
+        }
+      ],
+      "status": "executed",
+      "rows_before": 50,
+      "rows_after": 50,
+      "rows_dropped": 0,
+      "rows_added": 0,
+      "risk": "none",
+      "note": "INNER JOIN: 50\u219250",
+      "tables_joined": "SRC_ORDER_LINES \u2194 SRC_PRODUCTS",
+      "keys_used": "product_id = product_id"
+    },
+    {
+      "index": 1,
+      "type": "LEFT",
+      "sql": "LEFT JOIN REF_REGION R ON C.REGION_CODE = R.REGION_CODE LEFT JOIN REF_CURRENCY CUR ON O.CURRENCY_CODE = CUR.CURRENCY_COD",
+      "keys": [
+        {
+          "left_table": "C",
+          "left_column": "REGION_CODE",
+          "right_table": "R",
+          "right_column": "REGION_CODE"
+        },
+        {
+          "left_table": "O",
+          "left_column": "CURRENCY_CODE",
+          "right_table": "CUR",
+          "right_column": "CURRENCY_CODE"
+        },
+        {
+          "left_table": "O",
+          "left_column": "ORDER_ID",
+          "right_table": "PAY",
+          "right_column": "ORDER_ID"
+        }
+      ],
+      "status": "executed",
+      "rows_before": 50,
+      "rows_after": 50,
+      "rows_dropped": 0,
+      "rows_added": 0,
+      "risk": "none",
+      "note": "LEFT JOIN: rows preserved (1:1 match)",
+      "tables_joined": "SRC_ORDERS \u2194 SRC_PAYMENTS",
+      "keys_used": "order_id = order_id"
+    }
+  ],
+  "filters": [
+    {
+      "expression": "CASE WHEN O.STATUS IN ('CANCELLED','RETURNED') THEN 'INACTIVE' ELSE 'ACTIVE' END = 'ACTIVE' AND O.ORDER_DATE >= '2022-01",
+      "columns_referenced": [
+        "STATUS",
+        "ORDER_DATE",
+        "STATUS"
+      ],
+      "columns_found_in_data": [
+        "status",
+        "order_date",
+        "status"
+      ],
+      "testable": true,
+      "status": "covered",
+      "note": "All filter columns present in data"
+    },
+    {
+      "expression": "OL.QTY > 0 AND P.PRICE > 0 AND PAY.AMOUNT >= 0",
+      "columns_referenced": [
+        "QTY",
+        "PRICE",
+        "AMOUNT"
+      ],
+      "columns_found_in_data": [
+        "qty",
+        "price",
+        "amount"
+      ],
+      "testable": true,
+      "status": "covered",
+      "note": "All filter columns present in data"
+    }
+  ],
+  "target_columns": [
+    {
+      "column": "ORDER_ID",
+      "rule": "ORDER_ID | Direct mapping",
+      "type": "Complex/Other",
+      "resolved": true,
+      "sample_value": "O0",
+      "status": "covered"
+    },
+    {
+      "column": "LINE_ID",
+      "rule": "LINE_ID | Direct mapping",
+      "type": "Complex/Other",
+      "resolved": true,
+      "sample_value": "L0",
+      "status": "covered"
+    },
+    {
+      "column": "CUSTOMER_ID",
+      "rule": "CUSTOMER_ID | Direct mapping",
+      "type": "Complex/Other",
+      "resolved": true,
+      "sample_value": "CUST47104",
+      "status": "covered"
+    },
+    {
+      "column": "CUSTOMER_NAME",
+      "rule": "CUSTOMER_NAME | Direct mapping",
+      "type": "Complex/Other",
+      "resolved": true,
+      "sample_value": "Customer_0",
+      "status": "covered"
+    },
+    {
+      "column": "REGION_NAME",
+      "rule": "REGION_CODE | Lookup via REF_REGION",
+      "type": "Complex/Other",
+      "resolved": true,
+      "sample_value": "Region_0",
+      "status": "covered"
+    },
+    {
+      "column": "PRODUCT_ID",
+      "rule": "PRODUCT_ID | Direct mapping",
+      "type": "Complex/Other",
+      "resolved": true,
+      "sample_value": "P2017",
+      "status": "covered"
+    },
+    {
+      "column": "PRODUCT_NAME",
+      "rule": "PRODUCT_NAME | Direct mapping",
+      "type": "Complex/Other",
+      "resolved": true,
+      "sample_value": "Product_0",
+      "status": "covered"
+    },
+    {
+      "column": "CATEGORY",
+      "rule": "CATEGORY | Uppercase normalization",
+      "type": "Complex/Other",
+      "resolved": true,
+      "sample_value": "D",
+      "status": "covered"
+    },
+    {
+      "column": "ORDER_DATE",
+      "rule": "ORDER_DATE | Date cast",
+      "type": "Complex/Other",
+      "resolved": true,
+      "sample_value": "2022-04-13",
+      "status": "covered"
+    },
+    {
+      "column": "CURRENCY_CODE",
+      "rule": "CURRENCY_CODE | Direct mapping",
+      "type": "Complex/Other",
+      "resolved": true,
+      "sample_value": "C39671",
+      "status": "covered"
+    },
+    {
+      "column": "CURRENCY_NAME",
+      "rule": "CURRENCY_CODE | Lookup enrichment",
+      "type": "Complex/Other",
+      "resolved": true,
+      "sample_value": "Currency_0",
+      "status": "covered"
+    },
+    {
+      "column": "UNIT_PRICE",
+      "rule": "PRICE | Currency conversion if needed",
+      "type": "Complex/Other",
+      "resolved": false,
+      "sample_value": null,
+      "status": "gap"
+    },
+    {
+      "column": "QTY",
+      "rule": "QTY | Direct mapping",
+      "type": "Complex/Other",
+      "resolved": true,
+      "sample_value": "2",
+      "status": "covered"
+    },
+    {
+      "column": "LINE_AMOUNT",
+      "rule": "LINE_AMOUNT | If null then QTY*PRICE",
+      "type": "Calculation",
+      "resolved": true,
+      "sample_value": "1617.7",
+      "status": "covered"
+    },
+    {
+      "column": "ORDER_TOTAL_USD",
+      "rule": "LINE_AMOUNT * FX_RATE | Currency normalization",
+      "type": "Calculation",
+      "resolved": false,
+      "sample_value": null,
+      "status": "gap"
+    },
+    {
+      "column": "PAYMENT_STATUS",
+      "rule": "PAYMENT_STATUS | Default 'PENDING' if null",
+      "type": "Complex/Other",
+      "resolved": true,
+      "sample_value": "FAILED",
+      "status": "covered"
+    },
+    {
+      "column": "PAYMENT_AMOUNT",
+      "rule": "AMOUNT | Default 0 if null",
+      "type": "Complex/Other",
+      "resolved": false,
+      "sample_value": null,
+      "status": "gap"
+    },
+    {
+      "column": "ORDER_STATUS",
+      "rule": "STATUS | CASE WHEN CANCELLED THEN 'INACTIVE' ELSE 'ACTIVE'",
+      "type": "CASE/WHEN",
+      "resolved": false,
+      "sample_value": null,
+      "status": "gap"
+    },
+    {
+      "column": "IS_HIGH_VALUE",
+      "rule": "LINE_AMOUNT > 10000 | Boolean flag",
+      "type": "Complex/Other",
+      "resolved": false,
+      "sample_value": null,
+      "status": "gap"
+    },
+    {
+      "column": "CREATED_TS",
+      "rule": "SYSDATE() | System generated",
+      "type": "System generated",
+      "resolved": true,
+      "sample_value": "2026-04-18 16:07:10",
+      "status": "covered"
+    },
+    {
+      "column": "UPDATED_TS",
+      "rule": "SYSDATE() | System generated",
+      "type": "System generated",
+      "resolved": true,
+      "sample_value": "2026-04-18 16:07:10",
+      "status": "covered"
+    }
+  ],
+  "deduplication": {
+    "keys": [
+      "recordid",
+      "order_id",
+      "customer_id",
+      "recordid_SRC_ORDER_LINES",
+      "line_id",
+      "product_id",
+      "recordid_SRC_CUSTOMERS",
+      "recordid_SRC_PRODUCTS",
+      "recordid_REF_REGION",
+      "recordid_REF_CURRENCY",
+      "recordid_SRC_PAYMENTS",
+      "payment_id"
+    ],
+    "before": 5,
+    "after": 5,
+    "removed": 0
+  },
+  "scenarios_generated": {
+    "inserts": 5,
+    "updates": 5,
+    "deletes": 5,
+    "total": 15
+  },
+  "row_counts": {
+    "REF_CURRENCY": 50,
+    "REF_REGION": 50,
+    "SRC_CUSTOMERS": 51,
+    "SRC_ORDERS": 51,
+    "SRC_ORDER_LINES": 50,
+    "SRC_PAYMENTS": 50,
+    "SRC_PRODUCTS": 50,
+    "driving_table": 51,
+    "driving_table_name": "SRC_ORDERS",
+    "after_joins": 50,
+    "final": 5
+  },
+  "scenario_dir": "/Users/somyak/projects/My-AI-project/lyra-agentic-ai-framework/data/scenarios/mapping_v1/TARGET_TRADES",
+  "version": "v2",
+  "coverage": {
+    "joins_total": 2,
+    "filters_total": 2,
+    "columns_total": 21
+  }
+}

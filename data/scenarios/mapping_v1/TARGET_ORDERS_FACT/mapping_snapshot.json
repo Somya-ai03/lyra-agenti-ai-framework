@@ -1,0 +1,59 @@
+{
+  "mapping_hash": "1d32474bd6fd847f13572842a0a97e3a",
+  "target_columns": [
+    "CATEGORY",
+    "CREATED_TS",
+    "CURRENCY_CODE",
+    "CURRENCY_NAME",
+    "CUSTOMER_ID",
+    "CUSTOMER_NAME",
+    "IS_HIGH_VALUE",
+    "LINE_AMOUNT",
+    "LINE_ID",
+    "ORDER_DATE",
+    "ORDER_ID",
+    "ORDER_STATUS",
+    "ORDER_TOTAL_USD",
+    "PAYMENT_AMOUNT",
+    "PAYMENT_STATUS",
+    "PRODUCT_ID",
+    "PRODUCT_NAME",
+    "QTY",
+    "REGION_NAME",
+    "UNIT_PRICE",
+    "UPDATED_TS"
+  ],
+  "column_rules": [
+    "CATEGORY=CATEGORY | Uppercase normalization",
+    "CREATED_TS=SYSDATE() | System generated",
+    "CURRENCY_CODE=CURRENCY_CODE | Direct mapping",
+    "CURRENCY_NAME=CURRENCY_CODE | Lookup enrichment",
+    "CUSTOMER_ID=CUSTOMER_ID | Direct mapping",
+    "CUSTOMER_NAME=CUSTOMER_NAME | Direct mapping",
+    "IS_HIGH_VALUE=LINE_AMOUNT > 10000 | Boolean flag",
+    "LINE_AMOUNT=LINE_AMOUNT | If null then QTY*PRICE",
+    "LINE_ID=LINE_ID | Direct mapping",
+    "ORDER_DATE=ORDER_DATE | Date cast",
+    "ORDER_ID=ORDER_ID | Direct mapping",
+    "ORDER_STATUS=STATUS | CASE WHEN CANCELLED THEN 'INACTIVE' ELSE 'ACTIVE'",
+    "ORDER_TOTAL_USD=LINE_AMOUNT * FX_RATE | Currency normalization",
+    "PAYMENT_AMOUNT=AMOUNT | Default 0 if null",
+    "PAYMENT_STATUS=PAYMENT_STATUS | Default 'PENDING' if null",
+    "PRODUCT_ID=PRODUCT_ID | Direct mapping",
+    "PRODUCT_NAME=PRODUCT_NAME | Direct mapping",
+    "QTY=QTY | Direct mapping",
+    "REGION_NAME=REGION_CODE | Lookup via REF_REGION",
+    "UNIT_PRICE=PRICE | Currency conversion if needed",
+    "UPDATED_TS=SYSDATE() | System generated"
+  ],
+  "joins": [
+    "[{'left_table': 'O', 'left_column': 'ORDER_ID', 'right_table': 'OL', 'right_column': 'ORDER_ID'}, {'left_table': 'O', 'left_column': 'CUSTOMER_ID', 'right_table': 'C', 'right_column': 'CUSTOMER_ID'}, {'left_table': 'OL', 'left_column': 'PRODUCT_ID', 'right_table': 'P', 'right_column': 'PRODUCT_ID'}]",
+    "[{'left_table': 'C', 'left_column': 'REGION_CODE', 'right_table': 'R', 'right_column': 'REGION_CODE'}, {'left_table': 'O', 'left_column': 'CURRENCY_CODE', 'right_table': 'CUR', 'right_column': 'CURRENCY_CODE'}, {'left_table': 'O', 'left_column': 'ORDER_ID', 'right_table': 'PAY', 'right_column': 'ORDER_ID'}]"
+  ],
+  "filters": [
+    "CASE WHEN O.STATUS IN ('CANCELLED','RETURNED') THEN 'INACTIVE' ELSE 'ACTIVE' END = 'ACTIVE' AND O.ORDER_DATE >= '2022-01-01' AND C.STATUS <> 'TEST'",
+    "OL.QTY > 0 AND P.PRICE > 0 AND PAY.AMOUNT >= 0"
+  ],
+  "generated_at": "2026-04-17T09:26:31.700146",
+  "scenario_count": 5
+}

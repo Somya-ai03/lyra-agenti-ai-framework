@@ -1,0 +1,167 @@
+{
+  "scenario_id": "760913e0-bf70-4a93-96de-3d76548298e9",
+  "target_table": "mapping_v1",
+  "business_keys": [
+    "recordid",
+    "order_id",
+    "customer_id",
+    "recordid_SRC_ORDER_LINES",
+    "line_id",
+    "product_id",
+    "recordid_SRC_CUSTOMERS",
+    "recordid_SRC_PRODUCTS",
+    "recordid_REF_REGION",
+    "recordid_REF_CURRENCY",
+    "recordid_SRC_PAYMENTS",
+    "payment_id"
+  ],
+  "operation": "UPDATE",
+  "before_image": {
+    "ORDER_ID": "O3",
+    "LINE_ID": "L3",
+    "CUSTOMER_ID": "CUST2174",
+    "CUSTOMER_NAME": "Customer_3",
+    "REGION_NAME": "Region_3",
+    "PRODUCT_ID": "P23775",
+    "PRODUCT_NAME": "Product_3",
+    "CATEGORY": "C",
+    "ORDER_DATE": "2022-12-27",
+    "CURRENCY_CODE": "C20356",
+    "CURRENCY_NAME": "Currency_3",
+    "UNIT_PRICE": 899.62,
+    "QTY": 6,
+    "LINE_AMOUNT": 1252.42,
+    "PAYMENT_STATUS": "PAID",
+    "PAYMENT_AMOUNT": 4706.29,
+    "ORDER_STATUS": "ACTIVE",
+    "CREATED_TS": "2026-03-29 17:26:05",
+    "UPDATED_TS": "2026-03-29 17:26:05",
+    "recordid": 4,
+    "order_id": "O3",
+    "customer_id": "CUST2174",
+    "recordid_SRC_ORDER_LINES": 4,
+    "line_id": "L3",
+    "product_id": "P23775",
+    "recordid_SRC_CUSTOMERS": 4,
+    "recordid_SRC_PRODUCTS": 4,
+    "recordid_REF_REGION": 4,
+    "recordid_REF_CURRENCY": 4,
+    "recordid_SRC_PAYMENTS": 4,
+    "payment_id": "PAY3",
+    "ORDER_TOTAL_USD": null,
+    "IS_HIGH_VALUE": null
+  },
+  "after_image": {
+    "ORDER_ID": "O3",
+    "LINE_ID": "L3",
+    "CUSTOMER_ID": "CUST2174",
+    "CUSTOMER_NAME": "Customer_3_UPDATED",
+    "REGION_NAME": "Region_3",
+    "PRODUCT_ID": "P23775",
+    "PRODUCT_NAME": "Product_3",
+    "CATEGORY": "C",
+    "ORDER_DATE": "2022-12-27",
+    "CURRENCY_CODE": "C20356",
+    "CURRENCY_NAME": "Currency_3",
+    "UNIT_PRICE": 899.62,
+    "QTY": 6,
+    "LINE_AMOUNT": 1252.42,
+    "PAYMENT_STATUS": "PAID",
+    "PAYMENT_AMOUNT": 4706.29,
+    "ORDER_STATUS": "ACTIVE",
+    "CREATED_TS": "2026-03-29 17:26:05",
+    "UPDATED_TS": "2026-03-29 17:26:05",
+    "recordid": 4,
+    "order_id": "O3",
+    "customer_id": "CUST2174",
+    "recordid_SRC_ORDER_LINES": 4,
+    "line_id": "L3",
+    "product_id": "P23775",
+    "recordid_SRC_CUSTOMERS": 4,
+    "recordid_SRC_PRODUCTS": 4,
+    "recordid_REF_REGION": 4,
+    "recordid_REF_CURRENCY": 4,
+    "recordid_SRC_PAYMENTS": 4,
+    "payment_id": "PAY3",
+    "ORDER_TOTAL_USD": null,
+    "IS_HIGH_VALUE": null
+  },
+  "metadata": {
+    "joins": [
+      {
+        "type": "INNER",
+        "sql": "SRC_ORDERS O INNER JOIN SRC_ORDER_LINES OL ON O.ORDER_ID = OL.ORDER_ID INNER JOIN SRC_CUSTOMERS C ON O.CUSTOMER_ID = C.CUSTOMER_ID INNER JOIN SRC_PRODUCTS P ON OL.PRODUCT_ID = P.PRODUCT_ID",
+        "keys": [
+          {
+            "left_table": "O",
+            "left_column": "ORDER_ID",
+            "right_table": "OL",
+            "right_column": "ORDER_ID"
+          },
+          {
+            "left_table": "O",
+            "left_column": "CUSTOMER_ID",
+            "right_table": "C",
+            "right_column": "CUSTOMER_ID"
+          },
+          {
+            "left_table": "OL",
+            "left_column": "PRODUCT_ID",
+            "right_table": "P",
+            "right_column": "PRODUCT_ID"
+          }
+        ]
+      },
+      {
+        "type": "LEFT",
+        "sql": "LEFT JOIN REF_REGION R ON C.REGION_CODE = R.REGION_CODE LEFT JOIN REF_CURRENCY CUR ON O.CURRENCY_CODE = CUR.CURRENCY_CODE LEFT JOIN SRC_PAYMENTS PAY ON O.ORDER_ID = PAY.ORDER_ID",
+        "keys": [
+          {
+            "left_table": "C",
+            "left_column": "REGION_CODE",
+            "right_table": "R",
+            "right_column": "REGION_CODE"
+          },
+          {
+            "left_table": "O",
+            "left_column": "CURRENCY_CODE",
+            "right_table": "CUR",
+            "right_column": "CURRENCY_CODE"
+          },
+          {
+            "left_table": "O",
+            "left_column": "ORDER_ID",
+            "right_table": "PAY",
+            "right_column": "ORDER_ID"
+          }
+        ]
+      }
+    ],
+    "filters": [
+      "CASE WHEN O.STATUS IN ('CANCELLED','RETURNED') THEN 'INACTIVE' ELSE 'ACTIVE' END = 'ACTIVE' AND O.ORDER_DATE >= '2022-01-01' AND C.STATUS <> 'TEST'"
+    ],
+    "target_columns": [
+      "ORDER_ID",
+      "LINE_ID",
+      "CUSTOMER_ID",
+      "CUSTOMER_NAME",
+      "REGION_NAME",
+      "PRODUCT_ID",
+      "PRODUCT_NAME",
+      "CATEGORY",
+      "ORDER_DATE",
+      "CURRENCY_CODE",
+      "CURRENCY_NAME",
+      "UNIT_PRICE",
+      "QTY",
+      "LINE_AMOUNT",
+      "ORDER_TOTAL_USD",
+      "PAYMENT_STATUS",
+      "PAYMENT_AMOUNT",
+      "ORDER_STATUS",
+      "IS_HIGH_VALUE",
+      "CREATED_TS",
+      "UPDATED_TS"
+    ]
+  }
+}

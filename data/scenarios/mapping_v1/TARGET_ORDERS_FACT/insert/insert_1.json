@@ -1,0 +1,134 @@
+{
+  "scenario_id": "b9546c02-97e9-4993-930c-3082b053b3ff",
+  "target_table": "TARGET_ORDERS_FACT",
+  "business_keys": [
+    "recordid",
+    "order_id",
+    "customer_id",
+    "recordid_SRC_ORDER_LINES",
+    "line_id",
+    "product_id",
+    "recordid_SRC_CUSTOMERS",
+    "recordid_SRC_PRODUCTS",
+    "recordid_REF_REGION",
+    "recordid_REF_CURRENCY",
+    "recordid_SRC_PAYMENTS",
+    "payment_id"
+  ],
+  "operation": "INSERT",
+  "before_image": {},
+  "after_image": {
+    "ORDER_ID": "O1",
+    "LINE_ID": "L1",
+    "CUSTOMER_ID": "CUST171329",
+    "CUSTOMER_NAME": "Customer_1",
+    "REGION_NAME": "Region_1",
+    "PRODUCT_ID": "P38216",
+    "PRODUCT_NAME": "Product_1",
+    "CATEGORY": "D",
+    "ORDER_DATE": "2021-08-15",
+    "CURRENCY_CODE": "C39176",
+    "CURRENCY_NAME": "Currency_1",
+    "UNIT_PRICE": 365.77,
+    "QTY": 17,
+    "LINE_AMOUNT": 726.46,
+    "PAYMENT_STATUS": "FAILED",
+    "PAYMENT_AMOUNT": 1232.2,
+    "ORDER_STATUS": "CANCELLED",
+    "CREATED_TS": "2026-04-17 09:26:31",
+    "UPDATED_TS": "2026-04-17 09:26:31",
+    "recordid": 2,
+    "order_id": "O1",
+    "customer_id": "CUST171329",
+    "recordid_SRC_ORDER_LINES": 2,
+    "line_id": "L1",
+    "product_id": "P38216",
+    "recordid_SRC_CUSTOMERS": 2,
+    "recordid_SRC_PRODUCTS": 2,
+    "recordid_REF_REGION": 2,
+    "recordid_REF_CURRENCY": 2,
+    "recordid_SRC_PAYMENTS": 2,
+    "payment_id": "PAY1",
+    "ORDER_TOTAL_USD": null,
+    "IS_HIGH_VALUE": null
+  },
+  "metadata": {
+    "joins": [
+      {
+        "type": "INNER",
+        "sql": "SRC_ORDERS O INNER JOIN SRC_ORDER_LINES OL ON O.ORDER_ID = OL.ORDER_ID INNER JOIN SRC_CUSTOMERS C ON O.CUSTOMER_ID = C.CUSTOMER_ID INNER JOIN SRC_PRODUCTS P ON OL.PRODUCT_ID = P.PRODUCT_ID",
+        "keys": [
+          {
+            "left_table": "O",
+            "left_column": "ORDER_ID",
+            "right_table": "OL",
+            "right_column": "ORDER_ID"
+          },
+          {
+            "left_table": "O",
+            "left_column": "CUSTOMER_ID",
+            "right_table": "C",
+            "right_column": "CUSTOMER_ID"
+          },
+          {
+            "left_table": "OL",
+            "left_column": "PRODUCT_ID",
+            "right_table": "P",
+            "right_column": "PRODUCT_ID"
+          }
+        ]
+      },
+      {
+        "type": "LEFT",
+        "sql": "LEFT JOIN REF_REGION R ON C.REGION_CODE = R.REGION_CODE LEFT JOIN REF_CURRENCY CUR ON O.CURRENCY_CODE = CUR.CURRENCY_CODE LEFT JOIN SRC_PAYMENTS PAY ON O.ORDER_ID = PAY.ORDER_ID",
+        "keys": [
+          {
+            "left_table": "C",
+            "left_column": "REGION_CODE",
+            "right_table": "R",
+            "right_column": "REGION_CODE"
+          },
+          {
+            "left_table": "O",
+            "left_column": "CURRENCY_CODE",
+            "right_table": "CUR",
+            "right_column": "CURRENCY_CODE"
+          },
+          {
+            "left_table": "O",
+            "left_column": "ORDER_ID",
+            "right_table": "PAY",
+            "right_column": "ORDER_ID"
+          }
+        ]
+      }
+    ],
+    "filters": [
+      "CASE WHEN O.STATUS IN ('CANCELLED','RETURNED') THEN 'INACTIVE' ELSE 'ACTIVE' END = 'ACTIVE' AND O.ORDER_DATE >= '2022-01-01' AND C.STATUS <> 'TEST'",
+      "OL.QTY > 0 AND P.PRICE > 0 AND PAY.AMOUNT >= 0"
+    ],
+    "target_columns": [
+      "ORDER_ID",
+      "LINE_ID",
+      "CUSTOMER_ID",
+      "CUSTOMER_NAME",
+      "REGION_NAME",
+      "PRODUCT_ID",
+      "PRODUCT_NAME",
+      "CATEGORY",
+      "ORDER_DATE",
+      "CURRENCY_CODE",
+      "CURRENCY_NAME",
+      "UNIT_PRICE",
+      "QTY",
+      "LINE_AMOUNT",
+      "ORDER_TOTAL_USD",
+      "PAYMENT_STATUS",
+      "PAYMENT_AMOUNT",
+      "ORDER_STATUS",
+      "IS_HIGH_VALUE",
+      "CREATED_TS",
+      "UPDATED_TS"
+    ]
+  }
+}

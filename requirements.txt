@@ -1,0 +1,10 @@
+pandas>=2.0
+numpy>=1.24
+openpyxl>=3.1.0
+openai>=1.0
+streamlit>=1.30
+snowflake-connector-python>=3.6
+cryptography>=41.0
+python-dotenv
+pytest>=7.0
+azure-storage-blob

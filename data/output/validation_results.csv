@@ -1,0 +1,76 @@
+scenario_id,operation,status,keys,reason,mismatches
+556fd9e0-b8ce-4503-8a98-974d7f488d48,INSERT,PASS,{'TRADE_ID': 'TRD00000008'},,[]
+4fb3f017-494b-4bd0-b3dc-64df8ec5c4e7,INSERT,PASS,{'TRADE_ID': 'TRD00000004'},,[]
+5e1a62ae-1355-4ddb-ae09-b478ccda3157,INSERT,PASS,{'TRADE_ID': 'TRD00000005'},,[]
+d12867b3-b1e8-4bd7-a67a-2db86cb09588,INSERT,PASS,{'TRADE_ID': 'TRD00000009'},,[]
+b8ee6903-bff7-4e85-bff2-52a06f5afe6a,INSERT,PASS,{'TRADE_ID': 'TRD00000002'},,[]
+86cc1dea-5667-49d4-bb1a-f34cadbcd091,INSERT,PASS,{'TRADE_ID': 'TRD00000003'},,[]
+89cdcea2-f6c4-478e-b75d-35064549208e,INSERT,PASS,{'TRADE_ID': 'TRD00000000'},,[]
+0f0426a0-9677-4b31-8d62-cd26b5334321,INSERT,PASS,{'TRADE_ID': 'TRD00000001'},,[]
+91566aaa-df50-482b-a9f1-8867fa531528,INSERT,PASS,{'TRADE_ID': 'TRD00000006'},,[]
+68e0fbeb-66b8-4e71-aed8-79549214db9b,INSERT,PASS,{'TRADE_ID': 'TRD00000007'},,[]
+12b60303-28a2-4586-91d0-a35e0135f1bf,UPDATE,PASS,{'TRADE_ID': 'TRD00000003'},,[]
+50432ed2-5916-41f3-b0f9-92707ef4ac05,UPDATE,PASS,{'TRADE_ID': 'TRD00000002'},,[]
+39d96629-4c1f-43ca-a383-460fee3bf575,UPDATE,PASS,{'TRADE_ID': 'TRD00000009'},,[]
+4d424bb2-cce2-49e4-ad69-aaa677547691,UPDATE,PASS,{'TRADE_ID': 'TRD00000005'},,[]
+dd3c7e23-9fda-4233-962f-3a53d3799d06,UPDATE,PASS,{'TRADE_ID': 'TRD00000004'},,[]
+0dbbf7fc-6035-44f7-8381-7282fbabacef,UPDATE,PASS,{'TRADE_ID': 'TRD00000008'},,[]
+098bfdb3-628e-4fe6-984c-2329697782f9,UPDATE,PASS,{'TRADE_ID': 'TRD00000007'},,[]
+43921935-e39d-488b-9b07-148deca6d84d,UPDATE,PASS,{'TRADE_ID': 'TRD00000006'},,[]
+163f3a42-08ec-412f-b8bc-f74ee458511f,UPDATE,PASS,{'TRADE_ID': 'TRD00000001'},,[]
+c5bcafd9-99d9-4268-a5c2-b35d64b823a8,UPDATE,PASS,{'TRADE_ID': 'TRD00000000'},,[]
+4a901de6-a5c1-483a-818c-a23af53a1b1b,DELETE,PASS,{'TRADE_ID': 'TRD00000003'},,[]
+d51fde3d-cc7b-4f29-b23f-341bb5c42d2c,DELETE,PASS,{'TRADE_ID': 'TRD00000002'},,[]
+376cd5fe-b05e-450c-87b3-3da9cae979bb,DELETE,PASS,{'TRADE_ID': 'TRD00000004'},,[]
+37371322-879c-44ee-82ae-e3f592b3bdd1,DELETE,PASS,{'TRADE_ID': 'TRD00000001'},,[]
+731e6d3d-4fc2-4598-b1ab-00d181098e20,DELETE,PASS,{'TRADE_ID': 'TRD00000000'},,[]
+0b16a920-fdc8-47e8-ab00-07178e3f6b8b,INSERT,FAIL,{'TRADE_ID': 'TRD00000004'},,"[{""column"": ""POSITION_ID"", ""expected"": ""POS000224048"", ""actual"": ""POS000000004""}, {""column"": ""COUNTRY_NAME"", ""expected"": ""Country_C04893"", ""actual"": ""Country_C00004""}, {""column"": ""CREATED_TS"", ""expected"": ""2026-03-29 15:34:19"", ""actual"": ""2025-05-10 08:04:03""}]"
+dd59a713-bf50-4f18-a151-6403562d5a5b,INSERT,FAIL,{'TRADE_ID': 'TRD00000002'},,"[{""column"": ""POSITION_ID"", ""expected"": ""POS000289871"", ""actual"": ""POS000000002""}, {""column"": ""COUNTERPARTY_TYPE"", ""expected"": ""CORP"", ""actual"": ""FUND""}, {""column"": ""COUNTRY_NAME"", ""expected"": ""Country_C03567"", ""actual"": ""Country_C00002""}, {""column"": ""CREATED_TS"", ""expected"": ""2026-03-29 15:34:19"", ""actual"": ""2022-12-05 01:16:37""}]"
+410673a6-a3be-4d88-a67e-39cf8efc8633,INSERT,FAIL,{'TRADE_ID': 'TRD00000002'},,"[{""column"": ""POSITION_ID"", ""expected"": ""POS000820992"", ""actual"": ""POS000000002""}, {""column"": ""COUNTERPARTY_TYPE"", ""expected"": ""CORP"", ""actual"": ""FUND""}, {""column"": ""COUNTRY_NAME"", ""expected"": ""Country_C03567"", ""actual"": ""Country_C00002""}, {""column"": ""CREATED_TS"", ""expected"": ""2026-03-29 15:34:19"", ""actual"": ""2022-12-05 01:16:37""}]"
+3ea00e63-55a2-4e67-9a11-0c401e631409,INSERT,FAIL,{'TRADE_ID': 'TRD00000004'},,"[{""column"": ""POSITION_ID"", ""expected"": ""POS001228963"", ""actual"": ""POS000000004""}, {""column"": ""COUNTRY_NAME"", ""expected"": ""Country_C04893"", ""actual"": ""Country_C00004""}, {""column"": ""CREATED_TS"", ""expected"": ""2026-03-29 15:34:19"", ""actual"": ""2025-05-10 08:04:03""}]"
+a6170831-f135-48a2-9757-ea392c7f3de5,INSERT,FAIL,{'TRADE_ID': 'TRD00000001'},,"[{""column"": ""POSITION_ID"", ""expected"": ""POS001579877"", ""actual"": ""POS000000001""}, {""column"": ""COUNTRY_NAME"", ""expected"": ""Country_C00007"", ""actual"": ""Country_C00001""}, {""column"": ""CREATED_TS"", ""expected"": ""2026-03-29 15:34:19"", ""actual"": ""2020-05-03 11:21:26""}]"
+8eb8d5e7-6004-4127-9f37-94bb7739445e,INSERT,FAIL,{'TRADE_ID': 'TRD00000001'},,"[{""column"": ""POSITION_ID"", ""expected"": ""POS001750273"", ""actual"": ""POS000000001""}, {""column"": ""COUNTRY_NAME"", ""expected"": ""Country_C00007"", ""actual"": ""Country_C00001""}, {""column"": ""CREATED_TS"", ""expected"": ""2026-03-29 15:34:19"", ""actual"": ""2020-05-03 11:21:26""}]"
+595999a3-2d9a-4a8b-a709-d178066010ff,INSERT,FAIL,{'TRADE_ID': 'TRD00000000'},,"[{""column"": ""POSITION_ID"", ""expected"": ""POS000117202"", ""actual"": ""POS000000000""}, {""column"": ""CREATED_TS"", ""expected"": ""2026-03-29 15:34:19"", ""actual"": ""2021-04-11 04:20:24""}]"
+260c66b3-ac94-4bfc-9819-121c928e6403,INSERT,FAIL,{'TRADE_ID': 'TRD00000000'},,"[{""column"": ""POSITION_ID"", ""expected"": ""POS000197511"", ""actual"": ""POS000000000""}, {""column"": ""CREATED_TS"", ""expected"": ""2026-03-29 15:34:19"", ""actual"": ""2021-04-11 04:20:24""}]"
+e26f2450-2a2e-4e82-9297-f106e9aa14a9,INSERT,FAIL,{'TRADE_ID': 'TRD00000003'},,"[{""column"": ""POSITION_ID"", ""expected"": ""POS000019163"", ""actual"": ""POS000000003""}, {""column"": ""COUNTERPARTY_TYPE"", ""expected"": ""FUND"", ""actual"": ""CORP""}, {""column"": ""COUNTRY_NAME"", ""expected"": ""Country_C04479"", ""actual"": ""Country_C00003""}, {""column"": ""CREATED_TS"", ""expected"": ""2026-03-29 15:34:19"", ""actual"": ""2020-09-06 19:53:26""}]"
+8a980096-4a70-4d4f-92e9-0e3b0208459d,INSERT,FAIL,{'TRADE_ID': 'TRD00000003'},,"[{""column"": ""POSITION_ID"", ""expected"": ""POS000376246"", ""actual"": ""POS000000003""}, {""column"": ""COUNTERPARTY_TYPE"", ""expected"": ""FUND"", ""actual"": ""CORP""}, {""column"": ""COUNTRY_NAME"", ""expected"": ""Country_C04479"", ""actual"": ""Country_C00003""}, {""column"": ""CREATED_TS"", ""expected"": ""2026-03-29 15:34:19"", ""actual"": ""2020-09-06 19:53:26""}]"
+0618721c-5ae9-4504-88f4-77263a6d99c3,UPDATE,PASS,{'TRADE_ID': 'TRD00000001'},,[]
+51586e30-41ad-452a-8a40-d5a1d6162c1d,UPDATE,PASS,{'TRADE_ID': 'TRD00000001'},,[]
+14a5ba5e-68f7-4da1-90de-36280dfcfaae,UPDATE,PASS,{'TRADE_ID': 'TRD00000004'},,[]
+a1e11d4f-0619-4bf8-a79f-b0b65d148b55,UPDATE,PASS,{'TRADE_ID': 'TRD00000002'},,[]
+a790d863-51b1-411c-90c9-becf6ea51b8b,UPDATE,PASS,{'TRADE_ID': 'TRD00000002'},,[]
+53591a4e-6463-4e06-a3e1-dcd73cd93ed4,UPDATE,PASS,{'TRADE_ID': 'TRD00000004'},,[]
+aa2b6d49-9130-421e-b379-0f2123a07c7b,UPDATE,PASS,{'TRADE_ID': 'TRD00000003'},,[]
+cec40c11-6304-4ccc-8cff-104952787439,UPDATE,PASS,{'TRADE_ID': 'TRD00000003'},,[]
+951ee2aa-55c7-4ba5-a09f-ee12d778b147,UPDATE,PASS,{'TRADE_ID': 'TRD00000000'},,[]
+9b3d2107-e389-4efa-af50-e4ffb74097d6,UPDATE,PASS,{'TRADE_ID': 'TRD00000000'},,[]
+6d2e492e-1d84-4522-9a17-1a72b1bedca6,DELETE,PASS,{'TRADE_ID': 'TRD00000001'},,[]
+acd61797-19dc-4bc1-99b9-1b8eccdda874,DELETE,PASS,{'TRADE_ID': 'TRD00000001'},,[]
+01acafe5-3f4c-46a1-a73c-a55657d9ae19,DELETE,PASS,{'TRADE_ID': 'TRD00000002'},,[]
+845ba8b7-be98-40ed-83cd-543f86df4da3,DELETE,PASS,{'TRADE_ID': 'TRD00000000'},,[]
+7e66b65c-9843-41d1-9244-46dd83598b01,DELETE,PASS,{'TRADE_ID': 'TRD00000000'},,[]
+78615b61-d6b9-4a79-8230-a28f5ac23b4b,INSERT,FAIL,{'TRADE_ID': 'TRD00000004'},,"[{""column"": ""COUNTERPARTY_TYPE"", ""expected"": ""CORP"", ""actual"": ""CORP_UPDATED""}, {""column"": ""CREATED_TS"", ""expected"": ""2026-03-30 13:06:10"", ""actual"": ""2026-03-29 15:34:19""}]"
+0ed814d0-7cd4-42de-bad7-0cebde00bc3e,INSERT,FAIL,{'TRADE_ID': 'TRD00000002'},,"[{""column"": ""CREATED_TS"", ""expected"": ""2026-03-30 13:06:10"", ""actual"": ""2026-03-29 15:34:19""}]"
+bc158606-dfdb-4db0-a787-db50df37368f,INSERT,FAIL,{'TRADE_ID': 'TRD00000002'},,"[{""column"": ""POSITION_ID"", ""expected"": ""POS000820992"", ""actual"": ""POS000289871""}, {""column"": ""CREATED_TS"", ""expected"": ""2026-03-30 13:06:10"", ""actual"": ""2026-03-29 15:34:19""}]"
+1f56e0b2-5227-4aef-965e-18aa71bd05cf,INSERT,FAIL,{'TRADE_ID': 'TRD00000004'},,"[{""column"": ""POSITION_ID"", ""expected"": ""POS001228963"", ""actual"": ""POS000224048""}, {""column"": ""COUNTERPARTY_TYPE"", ""expected"": ""CORP"", ""actual"": ""CORP_UPDATED""}, {""column"": ""CREATED_TS"", ""expected"": ""2026-03-30 13:06:10"", ""actual"": ""2026-03-29 15:34:19""}]"
+a2301a07-3271-47bd-ae72-f771ae29e7fc,INSERT,FAIL,{'TRADE_ID': 'TRD00000001'},,"[{""column"": ""CREATED_TS"", ""expected"": ""2026-03-30 13:06:10"", ""actual"": ""2026-03-29 15:34:19""}]"
+a659c769-16ad-4b4e-9a05-8c5c4425948e,INSERT,FAIL,{'TRADE_ID': 'TRD00000001'},,"[{""column"": ""POSITION_ID"", ""expected"": ""POS001750273"", ""actual"": ""POS001579877""}, {""column"": ""CREATED_TS"", ""expected"": ""2026-03-30 13:06:10"", ""actual"": ""2026-03-29 15:34:19""}]"
+eef9f994-ebb4-4043-960a-0628ad593f02,INSERT,FAIL,{'TRADE_ID': 'TRD00000000'},,"[{""column"": ""CREATED_TS"", ""expected"": ""2026-03-30 13:06:10"", ""actual"": ""2026-03-29 15:34:19""}]"
+bd76898c-dae6-4ae5-af96-9a59e8016bbb,INSERT,FAIL,{'TRADE_ID': 'TRD00000000'},,"[{""column"": ""POSITION_ID"", ""expected"": ""POS000197511"", ""actual"": ""POS000117202""}, {""column"": ""CREATED_TS"", ""expected"": ""2026-03-30 13:06:10"", ""actual"": ""2026-03-29 15:34:19""}]"
+be6ecafa-bded-4ce2-afdb-112dc3f09ddb,INSERT,FAIL,{'TRADE_ID': 'TRD00000003'},,"[{""column"": ""COUNTERPARTY_TYPE"", ""expected"": ""FUND"", ""actual"": ""FUND_UPDATED""}, {""column"": ""CREATED_TS"", ""expected"": ""2026-03-30 13:06:10"", ""actual"": ""2026-03-29 15:34:19""}]"
+7fb56029-7f00-402c-bd11-6314001b3795,INSERT,FAIL,{'TRADE_ID': 'TRD00000003'},,"[{""column"": ""POSITION_ID"", ""expected"": ""POS000376246"", ""actual"": ""POS000019163""}, {""column"": ""COUNTERPARTY_TYPE"", ""expected"": ""FUND"", ""actual"": ""FUND_UPDATED""}, {""column"": ""CREATED_TS"", ""expected"": ""2026-03-30 13:06:10"", ""actual"": ""2026-03-29 15:34:19""}]"
+24ae9bd8-e26d-47d1-9496-8af2b9c7543c,UPDATE,PASS,{'TRADE_ID': 'TRD00000001'},,[]
+774eb50e-ad38-4346-9ad5-ee56126420c4,UPDATE,PASS,{'TRADE_ID': 'TRD00000001'},,[]
+cf03dcb7-2a85-4dd8-99a1-802e891b3fe1,UPDATE,PASS,{'TRADE_ID': 'TRD00000004'},,[]
+9ee95d00-32ae-418e-be11-2d8c4a654e74,UPDATE,PASS,{'TRADE_ID': 'TRD00000002'},,[]
+f135ac51-f76e-4912-8dcc-714a5641268b,UPDATE,PASS,{'TRADE_ID': 'TRD00000002'},,[]
+764f06d5-04c9-446f-ab5f-f9ca6a8bd0d9,UPDATE,PASS,{'TRADE_ID': 'TRD00000004'},,[]
+b564feab-ecb2-46da-963f-c916ead73505,UPDATE,PASS,{'TRADE_ID': 'TRD00000003'},,[]
+57ac15cd-bf2e-4632-87e8-8ea2460d4b3f,UPDATE,PASS,{'TRADE_ID': 'TRD00000003'},,[]
+4a744c80-ba4f-4b88-8227-34ff6159248d,UPDATE,PASS,{'TRADE_ID': 'TRD00000000'},,[]
+47ff6d7b-e4bf-480f-affa-4328fd04ae59,UPDATE,PASS,{'TRADE_ID': 'TRD00000000'},,[]
+18a2979b-b1b4-418d-9d60-9b7b0d250473,DELETE,PASS,{'TRADE_ID': 'TRD00000001'},,[]
+6ac4896f-9b65-4b2d-828e-abfd164d08b9,DELETE,PASS,{'TRADE_ID': 'TRD00000001'},,[]
+7bc0f26d-d204-42cc-97b0-bf434fc0eece,DELETE,PASS,{'TRADE_ID': 'TRD00000002'},,[]
+633ce0a9-dd32-4628-a8d8-3557200a54ac,DELETE,PASS,{'TRADE_ID': 'TRD00000000'},,[]
+36410573-6d9b-491d-af89-87291d1d0a61,DELETE,PASS,{'TRADE_ID': 'TRD00000000'},,[]
