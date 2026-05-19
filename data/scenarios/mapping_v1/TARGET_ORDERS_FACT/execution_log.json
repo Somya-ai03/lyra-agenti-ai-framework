@@ -310,7 +310,7 @@
       "rule": "SYSDATE() | System generated",
       "type": "System generated",
       "resolved": true,
-      "sample_value": "2026-04-17 09:26:31",
+      "sample_value": "2026-05-17 11:46:07",
       "status": "covered"
     },
     {
@@ -318,7 +318,7 @@
       "rule": "SYSDATE() | System generated",
       "type": "System generated",
       "resolved": true,
-      "sample_value": "2026-04-17 09:26:31",
+      "sample_value": "2026-05-17 11:46:07",
       "status": "covered"
     }
   ],
@@ -360,7 +360,7 @@
     "after_joins": 50,
     "final": 5
   },
-  "scenario_dir": "/Users/somyak/projects/My-AI-project/lyra-agentic-ai-framework/data/scenarios/mapping_v1/TARGET_ORDERS_FACT",
+  "scenario_dir": "/Users/somyak/projects/lyra-agentic-ai-framework/data/scenarios/mapping_v1/TARGET_ORDERS_FACT/delta_20260517_114607",
   "version": "v2",
   "coverage": {
     "joins_total": 2,

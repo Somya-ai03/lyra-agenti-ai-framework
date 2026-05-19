@@ -2,6 +2,19 @@ import pandas as pd
 import re
 from typing import Dict, Any
 
+from core.storage.blob_storage import read_excel_blob
+USE_BLOB_STORAGE = True
+
+
+def load_mapping_excel(path):
+
+    if USE_BLOB_STORAGE and isinstance(path, str):
+        return read_excel_blob(path)
+
+    return pd.read_excel(path)
+
+
+
 def build_sql_mapping(mapping_path) -> Dict[str, Any]:
     """
     Build SQL mapping from Excel file.
@@ -11,7 +24,7 @@ def build_sql_mapping(mapping_path) -> Dict[str, Any]:
     print(f"Reading: {mapping_path}")
 
     # Read Excel file
-    df = pd.read_excel(mapping_path)
+    df = load_mapping_excel(mapping_path)
     df = df.fillna("")
 
     print(f"Loaded {len(df)} rows")

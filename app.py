@@ -18,6 +18,7 @@ load_dotenv()
 # -------------------------------------------------
 ROOT = Path(__file__).resolve().parent
 DATA_DIR = ROOT / "data"
+USE_BLOB_STORAGE = True
 ASSETS_DIR = ROOT / "assets"                 # <- add this asset directory path
 PROFILED_DIR = DATA_DIR / "profiled"
 PROFILED_DIR.mkdir(parents=True, exist_ok=True)
@@ -78,6 +79,14 @@ from core.ai.ai_engine import (
     AI_STATUS_MESSAGES,
 )
 
+
+from core.storage.blob_storage import (
+    upload_file,
+    list_files,
+    read_csv_blob,
+    read_excel_blob,
+)
+
 # -------------------------------------------------
 # HELPERS
 # -------------------------------------------------
@@ -117,9 +126,33 @@ def _json_safe(obj):
 
 
 def save_profiled_table(table_name: str, df):
-    path = PROFILED_DIR / f"{table_name}_profiled.csv"
-    df.to_csv(path, index=False)
-    return path
+
+    filename = f"{table_name}_profiled.csv"
+
+    if USE_BLOB_STORAGE:
+
+        csv_bytes = df.to_csv(index=False).encode()
+
+        from io import BytesIO
+
+        fake_file = BytesIO(csv_bytes)
+
+        class UploadObj:
+            def getvalue(self):
+                return fake_file.getvalue()
+
+        upload_file(
+            UploadObj(),
+            f"profiled/{filename}"
+        )
+
+        return filename
+
+    else:
+
+        path = PROFILED_DIR / filename
+        df.to_csv(path, index=False)
+        return path
 
 
 _SKIP_JSON = {"scenario_summary.json", "mapping_snapshot.json", "scenario_baseline.json", "execution_log.json"}
@@ -262,9 +295,20 @@ convert_png_to_jpg("assets/with_ai.png", "assets/with_ai.jpg")
 
 print("✅ Conversion complete")
 
+def load_csv(path):
+
+    if USE_BLOB_STORAGE:
+        return read_csv_blob(path)
+
+    return pd.read_csv(path)
 
 
+def load_excel(path):
 
+    if USE_BLOB_STORAGE:
+        return read_excel_blob(path)
+
+    return pd.read_excel(path)
 
 
 # -------------------------------------------------
@@ -353,7 +397,7 @@ for key, default in {
 # AUTO-DISCOVERY (run once)
 # -------------------------------------------------
 if st.session_state.discovered_assets is None:
-    st.session_state.discovered_assets = discover_all(DATA_DIR)
+    st.session_state.discovered_assets = discover_all()
 
 discovered = st.session_state.discovered_assets
 
@@ -416,6 +460,64 @@ with st.sidebar:
     
     if not st.session_state.ai_chat_history:
        st.caption("💡 Try asking: 'Summarize data quality issues'")
+
+
+# =====================================================
+# BULK BLOB UPLOAD
+# =====================================================
+
+with st.expander("☁️ Azure Blob Bulk Upload", expanded=False):
+
+    st.caption(
+        "Upload raw, profiled, mapping, or sample files directly to Azure Blob Storage."
+    )
+
+    uploaded_files = st.file_uploader(
+        "Upload Files",
+        accept_multiple_files=True,
+        type=["csv", "xlsx"]
+    )
+
+    if uploaded_files:
+
+        for file in uploaded_files:
+
+            filename = file.name.lower()
+
+            # ----------------------------------------
+            # Auto-detect folder
+            # ----------------------------------------
+            if filename.endswith(".xlsx"):
+
+                blob_path = f"mapping/{file.name}"
+
+            elif "profiled" in filename:
+
+                blob_path = f"profiled/{file.name}"
+
+            elif "sample" in filename:
+
+                blob_path = f"sample/{file.name}"
+
+            else:
+
+                blob_path = f"raw/{file.name}"
+
+            # ----------------------------------------
+            # Upload
+            # ----------------------------------------
+            upload_file(file, blob_path)
+
+            st.success(f"Uploaded → {blob_path}")
+
+    # ----------------------------------------
+    # Optional debug
+    # ----------------------------------------
+    if st.button("Show Blob Files"):
+
+        files = list_files()
+
+        st.write(files)
 
 # -------------------------------------------------
 # TABS
@@ -531,20 +633,39 @@ with tabs[1]:
     if mapping_files:
         st.markdown('<div class="discovery-card">🔍 <b>Auto-discovered mapping files:</b></div>', unsafe_allow_html=True)
 
-        file_names = [f.name for f in mapping_files]
+        file_names = [
+         f["name"] if isinstance(f, dict) else f.name
+    for f in mapping_files
+]
         options = ["-- Select a discovered file --"] + file_names + ["📤 Upload new file"]
 
         choice = st.selectbox("Choose mapping document", options, key="mapping_choice")
 
         if choice == "📤 Upload new file":
             mapping_source = st.file_uploader("Upload Mapping Excel", type=["xlsx"], key="mapping_upload_new")
+            if mapping_source is not None:
+                upload_file(
+                 mapping_source,
+                 f"mapping/{mapping_source.name}"
+                    )
         elif choice != "-- Select a discovered file --":
             idx = file_names.index(choice)
-            mapping_source = mapping_files[idx]
+            selected = mapping_files[idx]
+
+            mapping_source = (
+            selected["path"]
+            if isinstance(selected, dict)
+            else selected
+            )
             st.success(f"✅ Using discovered file: `{choice}`")
     else:
         mapping_source = st.file_uploader("Upload Mapping Excel", type=["xlsx"], key="mapping_upload")
-
+        if mapping_source is not None:
+            upload_file(
+             mapping_source,
+             f"mapping/{mapping_source.name}"
+                )
+            
     # ----- Extract mapping -----
     if mapping_source is not None:
         if st.button("🔍 Extract Mapping", key="btn_extract_mapping"):
@@ -646,21 +767,20 @@ with tabs[1]:
 
  #---------------using to detect latest timestamp row for profiling-----------------------------------                           
 
-import os
+
 
 def should_reprofile(raw_path, profiled_path):
-    """
-    Returns True if raw data is newer than profiled data
-    """
+
+    if USE_BLOB_STORAGE:
+        return False
 
     if not profiled_path.exists():
-        return True  # no profiled file → must profile
+        return True
 
     raw_time = os.path.getmtime(raw_path)
     profiled_time = os.path.getmtime(profiled_path)
 
     return raw_time > profiled_time
-
 
 # =================================================
 # TAB 3 — PROFILING (with AI DQ Summary + Anomalies + Auto-Discovery)
@@ -699,7 +819,7 @@ with tabs[2]:
 
             if best:
                 st.markdown(
-                    f'<div class="discovery-card">🔍 Using <b>{best["source_type"]}</b> file: <code>{best["path"].name}</code></div>',
+                    f'<div class="discovery-card">🔍 Using <b>{best["source_type"]}</b> file: <code>{Path(best["path"]).name}</code></div>',
                     unsafe_allow_html=True
                 )
             else:
@@ -716,7 +836,7 @@ with tabs[2]:
 
             if best["source_type"] == "profiled" and raw_path and not should_reprofile(raw_path, profiled_path):
 
-                df = pd.read_csv(best["path"])
+                df = load_csv(best["path"])
                 df.columns = [c.strip().lower() for c in df.columns]
 
                 st.session_state.profiled_tables[table] = df
@@ -749,12 +869,8 @@ with tabs[2]:
 
                     st.info(f"⚡ Auto-profiling {table}...")
 
-                    try:
-                        df = load_from_blob(best["path"].name)
-                    except Exception:
-                        df = pd.read_csv(best["path"])
-
-                    # 🔥 ADD THIS LINE
+                    df = read_csv_blob(best["path"])
+                    
                        # df = apply_latest_batch_logic(df)
 
                     # STEP 1 — Ensure RecordId

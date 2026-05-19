@@ -54,6 +54,6 @@
     "CASE WHEN O.STATUS IN ('CANCELLED','RETURNED') THEN 'INACTIVE' ELSE 'ACTIVE' END = 'ACTIVE' AND O.ORDER_DATE >= '2022-01-01' AND C.STATUS <> 'TEST'",
     "OL.QTY > 0 AND P.PRICE > 0 AND PAY.AMOUNT >= 0"
   ],
-  "generated_at": "2026-04-17T09:26:31.700146",
-  "scenario_count": 5
+  "generated_at": "2026-05-17T11:46:07.775905",
+  "scenario_count": 45
 }

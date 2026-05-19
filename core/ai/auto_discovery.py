@@ -8,6 +8,8 @@ raw data, reference tables, sample data, and scenario JSON files.
 from pathlib import Path
 from typing import Dict, List, Optional
 import os
+from core.storage.blob_storage import list_files
+USE_BLOB_STORAGE = True
 
 
 def _project_root() -> Path:
@@ -15,66 +17,155 @@ def _project_root() -> Path:
     return Path(__file__).resolve().parents[2]
 
 
-def discover_mapping_files(data_dir: Optional[Path] = None) -> List[Path]:
-    """Find all Excel mapping documents."""
-    data_dir = data_dir or _project_root() / "data"
-    mapping_dir = data_dir / "mapping_document"
-    if not mapping_dir.exists():
-        return []
-    return sorted(mapping_dir.glob("*.xlsx"))
+def discover_mapping_files(data_dir: Optional[Path] = None) -> List:
+
+    if USE_BLOB_STORAGE:
+
+        files = list_files("mapping/")
+
+        return [
+            {
+                "name": f.split("/")[-1],
+                "path": f
+            }
+            for f in files if f.endswith(".xlsx")
+        ]
+
+    else:
+
+        data_dir = data_dir or _project_root() / "data"
+
+        mapping_dir = data_dir / "mapping_document"
+
+        if not mapping_dir.exists():
+            return []
+
+        return sorted(mapping_dir.glob("*.xlsx"))
+    
 
 
-def discover_profiled_files(data_dir: Optional[Path] = None) -> Dict[str, Path]:
-    """
-    Find existing profiled CSVs.
-    Returns {TABLE_NAME: Path} e.g. {"SRC_TRADES": Path(...)}
-    """
-    data_dir = data_dir or _project_root() / "data"
-    profiled_dir = data_dir / "profiled"
-    if not profiled_dir.exists():
-        return {}
+def discover_profiled_files(data_dir: Optional[Path] = None) -> Dict:
 
-    result = {}
-    for f in profiled_dir.glob("*_profiled.csv"):
-        table_name = f.stem.replace("_profiled", "")
-        result[table_name] = f
-    return result
+    if USE_BLOB_STORAGE:
+
+        files = list_files("profiled/")
+
+        result = {}
+
+        for f in files:
+
+            filename = f.split("/")[-1]
+
+            if filename.endswith("_profiled.csv"):
+
+                table_name = filename.replace("_profiled.csv", "")
+
+                result[table_name.upper()] = f
+
+        return result
+
+    else:
+
+        data_dir = data_dir or _project_root() / "data"
+
+        profiled_dir = data_dir / "profiled"
+
+        if not profiled_dir.exists():
+            return {}
+
+        result = {}
+
+        for f in profiled_dir.glob("*_profiled.csv"):
+
+            table_name = f.stem.replace("_profiled", "")
+
+            result[table_name] = f
+
+        return result
+    
 
 
-def discover_raw_files(data_dir: Optional[Path] = None) -> Dict[str, Path]:
-    """
-    Find raw data files in data/raw/ (recursively).
-    Returns {TABLE_NAME: Path}
-    """
-    data_dir = data_dir or _project_root() / "data"
-    raw_dir = data_dir / "raw"
-    if not raw_dir.exists():
-        return {}
+def discover_raw_files(data_dir: Optional[Path] = None) -> Dict:
 
-    result = {}
-    for f in raw_dir.rglob("*.csv"):
-        if ".ipynb_checkpoints" in str(f):
-            continue
-        table_name = f.stem.upper()
-        result[table_name] = f
-    return result
+    if USE_BLOB_STORAGE:
+
+        files = list_files("raw/")
+
+        result = {}
+
+        for f in files:
+
+            filename = f.split("/")[-1]
+
+            if filename.endswith(".csv"):
+
+                table_name = filename.replace(".csv", "").upper()
+
+                result[table_name] = f
+
+        return result
+
+    else:
+
+        data_dir = data_dir or _project_root() / "data"
+
+        raw_dir = data_dir / "raw"
+
+        if not raw_dir.exists():
+            return {}
+
+        result = {}
+
+        for f in raw_dir.rglob("*.csv"):
+
+            if ".ipynb_checkpoints" in str(f):
+                continue
+
+            table_name = f.stem.upper()
+
+            result[table_name] = f
+
+        return result
 
 
-def discover_sample_files(data_dir: Optional[Path] = None) -> Dict[str, Path]:
-    """
-    Find sample data files in data/sample/.
-    Returns {TABLE_NAME: Path}
-    """
-    data_dir = data_dir or _project_root() / "data"
-    sample_dir = data_dir / "sample"
-    if not sample_dir.exists():
-        return {}
+def discover_sample_files(data_dir: Optional[Path] = None) -> Dict:
 
-    result = {}
-    for f in sample_dir.glob("*.csv"):
-        table_name = f.stem.replace("_sample", "").upper()
-        result[table_name] = f
-    return result
+    if USE_BLOB_STORAGE:
+
+        files = list_files("sample/")
+
+        result = {}
+
+        for f in files:
+
+            filename = f.split("/")[-1]
+
+            if filename.endswith(".csv"):
+
+                table_name = filename.replace("_sample.csv", "").upper()
+
+                result[table_name] = f
+
+        return result
+
+    else:
+
+        data_dir = data_dir or _project_root() / "data"
+
+        sample_dir = data_dir / "sample"
+
+        if not sample_dir.exists():
+            return {}
+
+        result = {}
+
+        for f in sample_dir.glob("*.csv"):
+
+            table_name = f.stem.replace("_sample", "").upper()
+
+            result[table_name] = f
+
+        return result
 
 
 def discover_scenario_dirs(data_dir: Optional[Path] = None) -> Dict[str, Path]:
